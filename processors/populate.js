@@ -1,4 +1,6 @@
 // const performanceOthers = require('./performanceOthers');
+const { deepClone } = require('../util/utility');
+
 function populate(e, container) {
   let t;
   switch (e.type) {
@@ -9,7 +11,7 @@ function populate(e, container) {
       break;
     case 'chat':
     case 'chatwheel':
-      container.chat.push(JSON.parse(JSON.stringify(e)));
+      container.chat.push(deepClone(e));
       break;
     case 'cosmetics':
       container.cosmetics = JSON.parse(e.key);
@@ -21,7 +23,7 @@ function populate(e, container) {
     case 'CHAT_MESSAGE_DENIED_AEGIS':
     case 'CHAT_MESSAGE_ROSHAN_KILL':
     case 'building_kill':
-      container.objectives.push(JSON.parse(JSON.stringify(e)));
+      container.objectives.push(deepClone(e));
       break;
     default:
       if (!container.players[e.slot]) {
@@ -69,7 +71,7 @@ function populate(e, container) {
             }, arrEntry);
           }
         } else {
-          arrEntry = JSON.parse(JSON.stringify(e));
+          arrEntry = deepClone(e);
         }
         t.push(arrEntry);
       } else if (e.type === 'ability_targets') {

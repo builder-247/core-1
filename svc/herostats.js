@@ -5,7 +5,7 @@ const db = require('../store/db');
 const redis = require('../store/redis');
 const utility = require('../util/utility');
 
-const { invokeInterval } = utility;
+const { invokeInterval, deepClone } = utility;
 
 function doHeroStats(cb) {
   const minTime = moment().subtract(30, 'day').format('X');
@@ -71,7 +71,7 @@ function doHeroStats(cb) {
       return cb(err);
     }
     // Build object keyed by hero_id for each result array
-    const objectResponse = JSON.parse(JSON.stringify(constants.heroes));
+    const objectResponse = deepClone(constants.heroes);
     Object.keys(result).forEach((key) => {
       result[key].rows.forEach((row) => {
         objectResponse[row.hero_id] = Object.assign(

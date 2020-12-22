@@ -1,4 +1,5 @@
 const populate = require('./populate');
+const { deepClone } = require('../util/utility');
 
 /**
  * A processor to compute teamfights that occurred given an event stream
@@ -46,7 +47,7 @@ function processTeamfights(entries, meta) {
         // close it
         currTeamfight.end = e.time;
         // push a copy for post-processing
-        teamfights.push(JSON.parse(JSON.stringify(currTeamfight)));
+        teamfights.push(deepClone(currTeamfight));
         // clear existing teamfight
         currTeamfight = null;
       }

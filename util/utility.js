@@ -4,6 +4,7 @@
  * */
 const constants = require('dotaconstants');
 const request = require('request');
+const v8 = require('v8');
 const Long = require('long');
 const urllib = require('url');
 const uuidV4 = require('uuid/v4');
@@ -830,6 +831,13 @@ function checkIfInExperiment(ip, mod) {
   return crypto.createHash('md5').update(ip).digest().readInt32BE(0) % 100 < mod;
 }
 
+/*
+* Create a deep clone of an object
+ */
+function deepClone(obj) {
+  return v8.deserialize(v8.serialize(obj));
+}
+
 module.exports = {
   tokenize,
   generateJob,
@@ -840,6 +848,7 @@ module.exports = {
   isContributor,
   playerWon,
   mergeObjects,
+  deepClone,
   modeWithCount,
   mode,
   isSignificant,
