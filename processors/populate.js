@@ -1,4 +1,5 @@
 const performanceOthers = require('./performanceOthers');
+const { deepClone } = require('../util/utility');
 
 function populate(e, container, meta) {
   let t;
@@ -10,7 +11,7 @@ function populate(e, container, meta) {
       break;
     case 'chat':
     case 'chatwheel':
-      container.chat.push(JSON.parse(JSON.stringify(e)));
+      container.chat.push(deepClone(e));
       break;
     case 'cosmetics':
       container.cosmetics = JSON.parse(e.key);
@@ -22,7 +23,7 @@ function populate(e, container, meta) {
     case 'CHAT_MESSAGE_DENIED_AEGIS':
     case 'CHAT_MESSAGE_ROSHAN_KILL':
     case 'building_kill':
-      container.objectives.push(JSON.parse(JSON.stringify(e)));
+      container.objectives.push(deepClone(e));
       break;
     case 'ability_levels':
       meta.ability_levels[e.unit] = Object.assign({}, {

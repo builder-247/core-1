@@ -13,6 +13,8 @@
  * total_time_taken: the time taken for the draft stage
  */
 
+const { deepClone } = require('../util/utility');
+
 function processDraftTimings(entries, meta) {
   const draftTimings = [];
   const heroIdToSlot = meta.hero_id_to_slot;
@@ -38,7 +40,7 @@ function processDraftTimings(entries, meta) {
         extra_time: e.draft_active_team === 2 ? e.draft_extime0 : e.draft_extime1,
         total_time_taken: 0,
       };
-      draftTimings.push(JSON.parse(JSON.stringify(currpickban)));
+      draftTimings.push(deepClone(currpickban));
       previousActiveTeam = e.draft_active_team;
     } else if (e.type === 'draft_start') {
       draftStart = e.time;

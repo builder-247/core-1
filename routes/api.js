@@ -8,6 +8,7 @@ const spec = require('./spec');
 const cacheFunctions = require('../store/cacheFunctions');
 const db = require('../store/db');
 const redis = require('../store/redis');
+const { deepClone } = require('../util/utility');
 
 const api = new express.Router();
 const { subkeys } = playerFields;
@@ -46,7 +47,7 @@ api.use('/players/:account_id/:info?', (req, res, cb) => {
   if (Number.isNaN(Number(req.params.account_id))) {
     return cb('invalid account_id');
   }
-  req.originalQuery = JSON.parse(JSON.stringify(req.query));
+  req.originalQuery = deepClone(req.query);
   // Enable significance filter by default, disable it if 0 is passed
   if (req.query.significant === '0') {
     delete req.query.significant;

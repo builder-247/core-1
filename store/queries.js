@@ -18,7 +18,7 @@ const cacheFunctions = require('./cacheFunctions');
 const benchmarksUtil = require('../util/benchmarksUtil');
 
 const {
-  redisCount, convert64to32, serialize, deserialize, isRadiant, isContributor, countItemPopularity,
+  redisCount, convert64to32, deepClone, serialize, deserialize, isRadiant, isContributor, countItemPopularity,
 } = utility;
 const { computeMatchData } = compute;
 const columnInfo = {};
@@ -702,13 +702,13 @@ async function updateTeamRankings(match, options) {
 }
 
 function createMatchCopy(match, players) {
-  const copy = JSON.parse(JSON.stringify(match));
-  copy.players = JSON.parse(JSON.stringify(players));
+  const copy = deepClone(match);
+  copy.players = deepClone(players);
   return copy;
 }
 
 function insertMatch(match, options, cb) {
-  const players = match.players ? JSON.parse(JSON.stringify(match.players)) : undefined;
+  const players = match.players ? deepClone(match.players) : undefined;
   const abilityUpgrades = [];
   const savedAbilityLvls = {
     5288: 'track',
